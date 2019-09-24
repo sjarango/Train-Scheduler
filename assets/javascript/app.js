@@ -49,6 +49,34 @@ $("#submit").on("click", function (event) {
     $("#frequency-input").val("");
 });
 
-// database.ref().on("value", function (snapshot) {
+database.ref().on("child_added", function (childSnapshot) {
+    console.log(childSnapshot.val());
 
-// });
+    // Store everything into a variable.
+    var trainName = childSnapshot.val().name;
+    var destination = childSnapshot.val().dest;
+    var firstTrainTime = childSnapshot.val().startTime;
+    var freq = childSnapshot.val().frequency;
+
+    // Train info
+    console.log(trainName);
+    console.log(destination);
+    console.log(firstTrainTime);
+    console.log(freq);
+
+    var nextArrival = "";
+    var minsAway = "";
+
+    
+    var newRow = $("<tr>").append(
+        $("<td>").text(trainName),
+        $("<td>").text(destination),
+        $("<td>").text(freq)//,
+        // $("<td>").text(nextArrival),
+        // $("<td>").text(minsAway)  
+    );
+
+    // Append the new row to the table
+    $("#current-time-table > tbody").append(newRow);
+
+});
