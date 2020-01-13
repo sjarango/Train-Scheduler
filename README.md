@@ -2,7 +2,7 @@
 
 ## Overview 
 
-    Train scheduling application that uses Firebase to host arrival and departure data. Retrieves and manipulates this information with Moment.js. Provides up-to-date information about various trains, namely their arrival times and how many minutes remain until they arrive at their station.
+Train scheduling application that uses Firebase to host arrival and departure data. Retrieves and manipulates this information with Moment.js. Provides up-to-date information about various trains, namely their arrival times and how many minutes remain until they arrive at their station.
  - - - 
 
 ## Techonologies
