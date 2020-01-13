@@ -49,7 +49,7 @@ $("#submit").on("click", function (event) {
     $("#frequency-input").val("");
 });
 
-database.ref().on("child_added", function (childSnapshot) {
+database.ref().on("child_added", function (childSnapshot, prevChildKey) {
     console.log(childSnapshot.val());
 
     // Store everything into a variable.
@@ -64,16 +64,34 @@ database.ref().on("child_added", function (childSnapshot) {
     console.log(firstTrainTime);
     console.log(freq);
 
-    var nextArrival = "";
-    var minsAway = "";
+    // get start time
+    // get frequency of time arrivals
+    // get current time
+    // get start time, format it to use with moment
+    var timeArray = firstTrainTime.split(":");
+    var trainTime = moment().hours(timeArray[0]).minutes(timeArray[1]);
 
-    
+    // most distant future between the time right now and the first train time
+    var maxMoment = moment.max(moment(), trainTime); 
+    var nextArrival;
+    var minsAway;
+
+    if (maxMoment === trainTime) {
+        nextArrival = trainTime.format("hh:mm A");
+        minsAway = trainTime.diff(moment(), "minutes");
+    } else {
+        var differenceTimes = moment().diff(trainTime, "minutes");
+        var remainder = differenceTimes % freq;
+        minsAway = freq - remainder;
+        nextArrival = moment().add(minsAway, "m").format("hh:mm A");
+    }
+
     var newRow = $("<tr>").append(
         $("<td>").text(trainName),
         $("<td>").text(destination),
-        $("<td>").text(freq)//,
-        // $("<td>").text(nextArrival),
-        // $("<td>").text(minsAway)  
+        $("<td>").text(freq),
+        $("<td>").text(nextArrival),
+        $("<td>").text(minsAway) 
     );
 
     // Append the new row to the table
